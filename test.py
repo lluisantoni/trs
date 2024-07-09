@@ -1,13 +1,14 @@
 import logging
+import datetime
 from weekdays import week_days_between_dates
 from timeutils import week_days_between_dates_slow
 
 if __name__ == '__main__':
     logging.basicConfig(format="%(levelname)s | %(asctime)s | %(message)s", level=logging.INFO)
 
-    dates = ["2024-06-01", "2024-06-02", "2024-06-03", "2024-06-04", "2024-06-05", "2024-06-06", "2024-06-07",
-             "2024-06-08", "2024-06-09", "2024-06-10", "2024-06-11", "2024-06-12", "2024-06-13", "2024-06-14",
-             "2024-06-15", "2024-06-16", "2024-06-17", "2024-06-18", "2024-06-19", "2024-06-20", "2024-06-21"]
+    sd = datetime.date(2024, 1, 1)
+    days = 250
+    dates = [(sd + datetime.timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
 
     for start_date in dates:
         for en_date in dates:
