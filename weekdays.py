@@ -12,9 +12,14 @@ def week_days_between_dates(date1: str, date2: str):
     week_days_within = full_weeks * 5
     day_of_week_1 = day_of_week(date1[0], date1[1], date1[2])
     day_of_week_2 = day_of_week(date2[0], date2[1], date2[2])
-    week_days = (week_days_within + \
-                ((day_of_week_2 - day_of_week_1) % 7) + 1
-                 - 1 * (day_of_week_1 < 2) - 1 * (day_of_week_2 < 2))
+    shift = 0
+    if day_of_week_1 == 0:
+        shift = 1 if day_of_week_2 == 0 else 2
+    if day_of_week_1 == 1:
+        shift = 1 + (day_of_week_2 == 0)
+    if day_of_week_1 > 1:
+        shift = (day_of_week_2 == 0) + 2 * (day_of_week_2 == 1) + 2 * (day_of_week_2 < day_of_week_1) * (day_of_week_2 > 1)
+    week_days = week_days_within + ((day_of_week_2 - day_of_week_1) % 7) + 1 - shift
     return max(week_days, 0)
 
 
