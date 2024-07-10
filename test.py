@@ -28,7 +28,7 @@ def week_days_between_dates_slow(start_date_str, end_date_str):
 if __name__ == '__main__':
     logging.basicConfig(format="%(levelname)s | %(asctime)s | %(message)s", level=logging.INFO)
 
-    sd = datetime.date(399, 1, 1)
+    sd = datetime.date(2020, 1, 1)
     days = 250 * 4
     dates = [(sd + datetime.timedelta(days=i)).strftime('%Y-%m-%d') for i in range(0, days, 5)]
 
@@ -38,5 +38,18 @@ if __name__ == '__main__':
             fast_value = week_days_between_dates(start_d, end_d)
             if slow_value != fast_value:
                 raise Exception(f"Wrong values for {start_d} - {end_d}: expected {slow_value} and actual {fast_value}")
+
+    begin = datetime.datetime.now()
+    for start_d in dates:
+        for end_d in dates:
+            slow_value = week_days_between_dates_slow(start_d, end_d)
+    end = datetime.datetime.now()
+    logging.info(f"Avg time ns for slow: {(end - begin).total_seconds() * 1e9 / len(dates) ** 2:,.0f}")
+    begin = datetime.datetime.now()
+    for start_d in dates:
+        for end_d in dates:
+            fast_value = week_days_between_dates(start_d, end_d)
+    end = datetime.datetime.now()
+    logging.info(f"Avg time ns for fast: {(end - begin).total_seconds() * 1e9 / len(dates) ** 2:,.0f}")
 
 
